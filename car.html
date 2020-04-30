@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        /* 背景部分 */
+        .bg {
+            position: relative;
+            overflow: hidden;
+            height: 500px;
+            width: 100%;
+            background-color: rgb(187, 235, 255);
+        }
+
+        /* 白云 */
+        .clouds {
+            position: absolute;
+            left: 50px;
+            top: 100px;
+            height: 15px;
+            width: 60px;
+            background-color: white;
+            border-radius: 25px;
+            animation: coulds_move 5s ease-in-out infinite;
+
+        }
+
+        .clouds::after {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            height: 30px;
+            width: 30px;
+            background-color: white;
+            border-radius: 15px;
+        }
+
+        .clouds::before {
+            content: "";
+            position: absolute;
+            left: 24px;
+            top: -8px;
+            height: 23px;
+            width: 35px;
+            background-color: white;
+            border-radius: 20px;
+        }
+
+
+
+        /* 太阳 */
+        .sun {
+            position: absolute;
+            top: 500px;
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+            background-image: radial-gradient(red, yellow, green);
+            box-shadow: 5px 5px 5px rgb(255, 215, 0, .3);
+            animation: sun_move 12s linear infinite;
+            z-index: 2;
+        }
+
+        /* 山脉 */
+        .hill_bg {
+            position: absolute;
+            bottom: 0px;
+            height: 300px;
+            width: 4000px;
+            background-color: rgb(187, 235, 255);
+            animation: hill_bg_move 5s infinite linear;
+        }
+
+        .hill_one,
+        .hill_two,
+        .hill_three,
+        .hill_four,
+        .hill_five,
+        .hill_six,
+        .hill_seven,
+        .hill_eight {
+            display: inline-block;
+            position: absolute;
+            background-color: rgb(106, 207, 255);
+            transform-origin: left bottom;
+            z-index: 5;
+        }
+
+        .hill_bg .hill_one {
+            height: 300px;
+            width: 400px;
+            top: 59px;
+            left: -80px;
+            background-color: rgb(106, 207, 255);
+            transform: rotate(30deg);
+
+        }
+
+        .hill_bg .hill_two {
+            height: 500px;
+            width: 500px;
+            top: -100px;
+            left: 500px;
+            transform: rotate(45deg);
+        }
+
+        .hill_bg .hill_three {
+            height: 700px;
+            width: 500px;
+            top: -300px;
+            left: 300px;
+            transform: rotate(45deg) skew(-25deg);
+
+        }
+
+        .hill_bg .hill_four {
+            height: 400px;
+            width: 500px;
+            top: -180px;
+            left: 900px;
+            transform: rotate(45deg) skew(-25deg);
+            transform-origin: left bottom;
+
+        }
+
+        .hill_bg .hill_five {
+            height: 300px;
+            width: 400px;
+            top: 59px;
+            left: 1700px;
+            background-color: rgb(106, 207, 255);
+            transform: rotate(30deg);
+
+        }
+
+        .hill_bg .hill_six {
+            height: 500px;
+            width: 500px;
+            top: -100px;
+            left: 2280px;
+            transform: rotate(45deg);
+
+        }
+
+        .hill_bg .hill_seven {
+            height: 700px;
+            width: 500px;
+            top: -300px;
+            left: 2280px;
+            transform: rotate(45deg) skew(-25deg);
+
+        }
+
+        .hill_bg .hill_eight {
+            height: 400px;
+            width: 500px;
+            top: -180px;
+            left: 2880px;
+            transform: rotate(45deg) skew(-25deg);
+            transform-origin: left bottom;
+        }
+
+        /* 地面部分 */
+        .floor {
+            position: relative;
+            overflow-x: hidden;
+            height: 225px;
+            background-color: rgb(27, 121, 160);
+
+        }
+
+        /* 斑马线 */
+        .floor .crosswalk {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 30px;
+            width: 5000px;
+            background-color: white;
+        }
+
+        .floor .crosswalk {
+            border-collapse: collapse;
+            animation: crosswalk_move 3s infinite linear;
+        }
+
+        .floor .crosswalk td:nth-child(even) {
+            background-color: rgb(27, 121, 160);
+        }
+
+        /* 汽车 公共样式*/
+        .car_body {
+            height: 30px;
+            width: 100px;
+            border-top-left-radius: 70%;
+            background-color: red;
+        }
+
+        .car_top {
+            position: absolute;
+            height: 30px;
+            width: 80px;
+            top: -20px;
+            left: 40px;
+            border-top-right-radius: 30px;
+            border-top-left-radius: 50px;
+            background-color: red;
+        }
+
+        .car_tail {
+            position: absolute;
+            height: 50px;
+            width: 60px;
+            top: -20px;
+            left: 80px;
+            border-top-right-radius: 50px;
+            background-color: red;
+        }
+
+        .car_tyre_one,
+        .car_tyre_two {
+            position: absolute;
+            height: 25px;
+            width: 25px;
+            top: 10px;
+            border-radius: 50%;
+            text-align: center;
+            background-color: black;
+            animation: tyre_move 1s infinite alternate;
+        }
+
+        .car_tyre_one {
+            left: 100px;
+        }
+
+        .car_tyre_two {
+            left: 15px;
+        }
+
+        .car_tyre_one::after,
+        .car_tyre_two::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            margin-top: -3px;
+            display: inline-block;
+            height: 6px;
+            width: 6px;
+            background-color: white;
+            animation: car_logo_move .1s infinite;
+        }
+
+        .car {
+            position: absolute;
+            right: 100px;
+            bottom: 20px;
+            animation: car_move 10s infinite alternate;
+        }
+
+        .car_two {
+            position: absolute;
+            top: 40px;
+            left: 500px;
+        }
+
+        @keyframes crosswalk_move {
+            0% {}
+
+            100% {
+                transform: translate(-3600px, -50%);
+            }
+        }
+
+        @keyframes sun_move {
+            from {}
+
+            to {
+                transform: rotate(180deg);
+                transform-origin: 820px 100px;
+            }
+        }
+
+        @keyframes coulds_move {
+            from {}
+
+            to {
+                transform: translateX(1400px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes hill_bg_move {
+            from {
+                
+            }
+
+            to {
+                transform: translateX(-2300px);
+            }
+        }
+
+        @keyframes car_logo_move {
+            from {}
+
+            to {
+                transform: rotate(360deg);
+                transform-origin: center center;
+            }
+        }
+
+        @keyframes tyre_move {
+            from {}
+
+            to {
+                transform: translateY(5px)
+            }
+        }
+
+        @keyframes car_move {
+            0% {}
+
+            50% {
+                transform: translateX(-1000px);
+            }
+
+            75% {
+                transform: translate(-1000px, -140px);
+            }
+
+            100% {
+                transform: translate(-1000px, 0);
+
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg">
+        <div class="sun"></div>
+        <div class="clouds"></div>
+        <div class="hill_bg">
+            <div class="hill_one"></div>
+            <div class="hill_two"></div>
+            <div class="hill_three"></div>
+            <div class="hill_four"></div>
+            <div class="hill_five"></div>
+            <div class="hill_six"></div>
+            <div class="hill_seven"></div>
+            <div class="hill_eight"></div>
+        </div>
+    </div>
+    <div class="floor">
+        <table class="crosswalk">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="car">
+            <div class="car_body"></div>
+            <div class="car_top"></div>
+            <div class="car_tail"></div>
+            <div class="car_tyre_one"></div>
+            <div class="car_tyre_two"></div>
+        </div>
+        <div class="car_two">
+            <div class="car_body"></div>
+            <div class="car_top"></div>
+            <div class="car_tail"></div>
+            <div class="car_tyre_one"></div>
+            <div class="car_tyre_two"></div>
+        </div>
+    </div>
+</body>
+
+</html>
